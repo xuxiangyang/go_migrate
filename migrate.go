@@ -119,12 +119,14 @@ func execWithFile(db *sql.DB, filePath string) {
 		panic(err)
 	}
 	contentStr := string(content)
-
+	sqls := strings.Split(contentStr, ";")
 	tx, _ := db.Begin()
-	_, err = tx.Exec(contentStr)
-	if err != nil {
-		tx.Rollback()
-		panic(err)
+	for _, sql := range sqls {
+		_, err = tx.Exec(strings.TrimSpace(sql))
+		if err != nil {
+			tx.Rollback()
+			panic(err)
+		}
 	}
 	tx.Commit()
 }
