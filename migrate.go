@@ -122,7 +122,11 @@ func execWithFile(db *sql.DB, filePath string) {
 	sqls := strings.Split(contentStr, ";")
 	tx, _ := db.Begin()
 	for _, sql := range sqls {
-		_, err = tx.Exec(strings.TrimSpace(sql))
+		sql = strings.TrimSpace(sql)
+		if len(sql) == 0 {
+			continue
+		}
+		_, err = tx.Exec(sql)
 		if err != nil {
 			tx.Rollback()
 			fmt.Println("error sql is", sql)
