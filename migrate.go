@@ -125,6 +125,7 @@ func execWithFile(db *sql.DB, filePath string) {
 		_, err = tx.Exec(strings.TrimSpace(sql))
 		if err != nil {
 			tx.Rollback()
+			fmt.Println("error sql is", sql)
 			panic(err)
 		}
 	}
