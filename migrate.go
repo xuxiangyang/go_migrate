@@ -102,7 +102,7 @@ func RefreshSchema(db *sql.DB) {
 func preVersion(filePathes []string, curVersion string) string {
 	sort.Sort(sort.Reverse(sort.StringSlice(filePathes)))
 	if len(filePathes) < 2 {
-		return curVersion
+		return ""
 	}
 	for _, filePath := range filePathes {
 		filePathVersion := path.Base(filePath)
