@@ -120,7 +120,12 @@ func execWithFile(db *sql.DB, filePath string) {
 	}
 	contentStr := string(content)
 	sqls := strings.Split(contentStr, ";")
-	tx, _ := db.Begin()
+
+	tx, err := db.Begin()
+	if err != nil {
+		panic(err)
+	}
+
 	for _, sql := range sqls {
 		sql = strings.TrimSpace(sql)
 		if len(sql) == 0 {
